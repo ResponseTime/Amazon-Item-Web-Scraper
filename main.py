@@ -16,20 +16,24 @@ class Base:
         self.p = []
         for i in self.price:
             self.p.append(int(i.text.replace(",", "")))
-        with open('prices.txt', 'w', encoding='utf-8') as prices:
+        with open('prices.txt', 'w', encoding='utf-16') as prices:
             for i, j in zip(self.name, self.p):
-                prices.writelines(i.text+" "+str(j)+"rs"+"\n")
+                prices.writelines(i.text+"["+str(j)+"rs"+"\n")
+        print("Put an * in front of the item you want to tag")
         os.system(r"prices.txt")
 
-    def tagItem(self, item, price):
-        k = 0
-        for i in self.name:
-            if i.text == item:
-                if self.p[k] < price:
-                    print(f"The {item}'s price is less than your budget")
-                    k += 1
-                else:
-                    print(f"The {item}'s price is more than your budget")
+    def tagItem(self, price):
+        self.items = []
+        self.prices = []
+        with open('prices.txt', 'r', encoding="utf-16") as pr:
+            self.lines = pr.readlines()
+            for i in self.lines:
+                if i.startswith("*"):
+                    self.items.append(i[1:i.index("[")])
+                    self.prices.append(i[i.index("[")+1:i.index("rs")])
+        for i, j in zip(self.items, self.prices):
+            if int(j) in range(price):
+                print(f"{i} is available at {j}rs")
 
 
 if __name__ == "__main__":
@@ -37,4 +41,4 @@ if __name__ == "__main__":
     item = input("Enter the item you want to search: ")
     url = f"https://www.amazon.in/s?k={item}&crid=2VMIAQAKD77AL&sprefix=%2Caps%2C229&ref=nb_sb_ss_recent_1_0_recent"
     Scraper.getPrices(url)
-    Scraper.tagItem("2022 Apple MacBook Air Laptop with M2 chip: 34.46 cm (13.6-inch) Liquid Retina Display, 8GB RAM, 256GB SSD Storage, Backlit Keyboard, 1080p FaceTime HD Camera. Works with iPhone/iPad; Space Grey", 10000)
+    Scraper.tagItem(600000)
