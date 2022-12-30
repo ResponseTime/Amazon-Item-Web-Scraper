@@ -1,6 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 class Base:
@@ -41,6 +44,6 @@ class Base:
 if __name__ == "__main__":
     Scraper = Base()
     item = input("Enter the item you want to search: ")
-    url = f"https://www.amazon.in/s?k={item}&crid=2VMIAQAKD77AL&sprefix=%2Caps%2C229&ref=nb_sb_ss_recent_1_0_recent"
+    url = os.getenv("URL").format(item)
     Scraper.getPrices(url)
     Scraper.tagItem(600000)
