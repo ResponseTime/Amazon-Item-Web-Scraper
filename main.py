@@ -31,9 +31,11 @@ class Base:
                 if i.startswith("*"):
                     self.items.append(i[1:i.index("[")])
                     self.prices.append(i[i.index("[")+1:i.index("rs")])
-        for i, j in zip(self.items, self.prices):
-            if int(j) in range(price):
-                print(f"{i} is available at {j}rs")
+        with open("tagged.txt", "w", encoding="utf-16") as tag:
+            for i, j in zip(self.items, self.prices):
+                if int(j) in range(price):
+                    tag.writelines(i+"["+str(j)+"rs"+"\n")
+        os.remove("prices.txt")
 
 
 if __name__ == "__main__":
