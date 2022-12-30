@@ -9,6 +9,9 @@ class Base:
         self.soup = BeautifulSoup(self.response.text, "html.parser")
         self.name = self.soup.find_all(
             "span", {"class": "a-size-medium a-color-base a-text-normal"})
+        if len(self.name) == 0:
+            self.name = self.soup.find_all(
+                "span", {"class": "a-size-base-plus a-color-base a-text-normal"})
         self.price = self.soup.find_all("span", {"class": "a-price-whole"})
         self.p = []
         for i in self.price:
