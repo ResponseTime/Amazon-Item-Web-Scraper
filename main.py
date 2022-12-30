@@ -13,8 +13,10 @@ class Base:
         self.p = []
         for i in self.price:
             self.p.append(int(i.text.replace(",", "")))
-        for i, j in zip(self.name, self.p):
-            print(i.text, str(j)+"rs")
+        with open('prices.txt', 'w', encoding='utf-8') as prices:
+            for i, j in zip(self.name, self.p):
+                prices.writelines(i.text+" "+str(j)+"rs"+"\n")
+        os.system(r"prices.txt")
 
     def tagItem(self, item, price):
         k = 0
