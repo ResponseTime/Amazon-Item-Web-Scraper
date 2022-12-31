@@ -25,7 +25,7 @@ class Base:
         print("Put an * in front of the item you want to tag")
         os.system(r"prices.txt")
 
-    def tagItem(self, price):
+    def tagItem(self):
         self.items = []
         self.prices = []
         with open('prices.txt', 'r', encoding="utf-16") as pr:
@@ -36,8 +36,7 @@ class Base:
                     self.prices.append(i[i.index("[")+1:i.index("rs")])
         with open("tagged.txt", "w", encoding="utf-16") as tag:
             for i, j in zip(self.items, self.prices):
-                if int(j) in range(price):
-                    tag.writelines(i+"["+str(j)+"rs"+"\n")
+                tag.writelines(i+"["+str(j)+"rs"+"\n")
         os.remove("prices.txt")
 
 
@@ -46,4 +45,4 @@ if __name__ == "__main__":
     item = input("Enter the item you want to search: ")
     url = os.getenv("URL").format(item)
     Scraper.getPrices(url)
-    Scraper.tagItem(600000)
+    Scraper.tagItem()
