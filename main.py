@@ -55,20 +55,30 @@ class Base:
         with open("tagged.txt", "r", encoding="utf-16") as tag:
             self.items = tag.readlines()
             for i, j in zip(self.name, self.items):
-                if i == j:
-                    notification.notify(
-                        title="Price Dropped",
-                        message="The price of {} has dropped".format(
-                            i.text),
-                        timeout=5
-                    )
-                    print("Price dropped for {}".format(i.text))
+                if i.text == j:
+                    if self.p[i] < int(j[j.index("[")+1: j.index("rs")]):
+                        notification.notify(
+                            title="Price Dropped",
+                            message="The price of {} has dropped".format(
+                                i.text),
+                            timeout=5
+                        )
+                        print("Price dropped for {}".format(i.text))
+                    else:
+                        print("Price is still the same for {}".format(i.text))
 
 
 if __name__ == "__main__":
     Scraper = Base()
+    print("Welcome to the Amazon Price Tracker")
+    print("To use this prgram enter the name of your item ")
     item = input("Enter the item you want to search: ")
     url = os.getenv("URL").format(item)
+    print("Getting prices...")
     Scraper.getPrices(url)
     Scraper.tagItem()
-    Scraper.checkForAll()
+    print('To check for price drops enter "check"')
+    inp = input("Enter your choice: ")
+    match inp:
+        case "check":
+            Scraper.checkForAll()
